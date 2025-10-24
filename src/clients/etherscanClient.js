@@ -4,13 +4,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const API_KEY = process.env.ETHERSCAN_API_KEY || '';
-const BASE_URL = process.env.BASE_URL || 'https://api.etherscan.io/api';
+const BASE_URL = process.env.BASE_URL || 'https://api.etherscan.io/v2/api';
+const CHAIN_ID = process.env.CHAIN_ID || '1'; // Default to Ethereum mainnet
 
 async function getData(action, address) {
   console.log(`Calling API: ${action} for ${address}`);
   
   const { data } = await axios.get(BASE_URL, {
-    params: { module: 'account', action, address, apikey: API_KEY }
+    params: { chainid: CHAIN_ID, module: 'account', action, address, apikey: API_KEY }
   });
   
   console.log(`API response status: ${data?.status}, message: ${data?.message}`);
